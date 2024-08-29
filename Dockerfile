@@ -1,27 +1,15 @@
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
 
-FROM amazonlinux:latest
+FROM node:bookworm-slim
 
-ENV NODE_VERSION=12.x
+RUN apt update && apt install -y wget curl
+RUN npm install -g opencollective
 
-USER root
+COPY ./install.sh /install.sh
 
-RUN yum update -y && \
-    yum install wget curl tar gzip which  -y && \
-    yum clean all && \
-    rm -rf /var/cache/yum
+COPY ./service.sh /service.sh
 
-RUN curl --silent --location https://rpm.nodesource.com/setup_${NODE_VERSION} | bash - && \
-    yum install nodejs -y && \
-    npm install -g opencollective
+RUN chmod 755 /install.sh && chmod 755 /service.sh
 
-COPY ./install.sh /root/install.sh
+RUN /install.sh
 
-COPY ./service.sh /root/service.sh
-
-RUN chmod 755 /root/install.sh && chmod 755 /root/service.sh
-
-RUN /root/install.sh
-
-ENTRYPOINT [ "bash","-c","/root/service.sh" ]
+ENTRYPOINT [ "bash","-c","/service.sh" ]
