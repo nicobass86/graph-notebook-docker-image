@@ -5,9 +5,9 @@
 
 ##### Ininition Enviroment #####
 cd ~
-wget https://repo.anaconda.com/archive/Anaconda3-2019.07-Linux-x86_64.sh -O ~/Anaconda3-2019.07-Linux-x86_64.sh
+wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-aarch64.sh -O ~/Anaconda3-2024.06-1-Linux-aarch64.sh
 mkdir ~/.conda/
-echo "yes" | bash Anaconda3-2019.07-Linux-x86_64.sh -b -p ~/anaconda3
+echo "yes" | bash Anaconda3-2024.06-1-Linux-aarch64.sh -b -p ~/anaconda3
 
 echo "export PATH=/root/anaconda3/bin:$PATH" >> ~/.bashrc
 
@@ -24,6 +24,7 @@ fi
 
 ##### Copy To Home Directory #####
 source ~/.bashrc
+conda install conda-forge::jupyterlab
 echo "y" | conda create -n JupyterSystemEnv python=3.7
 source activate JupyterSystemEnv
 
